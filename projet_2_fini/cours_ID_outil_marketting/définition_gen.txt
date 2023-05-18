@@ -1,0 +1,44 @@
+modéle: repésentation simplifié d'une réalité (modele meteo par exemple)
+
+KPI Key Performance Indicators): indicateur clé   bon en gros mes sondes sur mes machines quoi
+
+ROI: Return on investment: retour sur investissement
+formule: (revenue généré - coût de l'opération)/cout de l'opération
+
+en pourcent %
+
+Analyse Pré-Post  analyse avant-apres:
+
+pour la faire : determiner les periodes d'analyses , les indicateurs. ensuite ya plus qu'a analyser
+
+Groupe de contrôle: groupe placebo sans action valeur moyenne du groupe: 10% du total pour resultat significatif
+
+RFM: methode de tri client:
+Recente :savoir si la date d'achat est recente ou non
+Frequence: achete souvent
+Montant: Montant des achat
+
+on fait un scoring pour classer les clients vive les jeux de rôle 
+
+CLTV: La CLTV est la somme des revenus générés par vos clients au sein de votre entreprise pendant toute leur durée de vie client. Vous pouvez l’exprimer en revenus ou en marge.
+Le taux d’attrition étant le nombre de clients qui vous quittent sur une période donnée par le nombre total de clients actifs sur cette période. En d’autres termes, ce taux permet d’évaluer à quel point votre panier est percé :'(.
+
+Si vous calculez un taux d’attrition annuel et qu’il est admettons de 40 %, la durée de vie de vos clients sera de 2 ans et demi (12 / 40 % = 30, soit 30 mois donc 2 ans et demi). En général, on commence par calculer la CLTV sur les données historiques seulement. Puis, dans les organisations plus sophistiquées, on ira jusqu’à la CLTV prédictive.
+
+ La CLTV trouve tout son sens quand elle est calculée par segments et couplée au coût d’acquisition.
+ 
+ SIM Systéme d'Information Marketting
+ Pour faire simple, un SIM est un ensemble de processus qui va vous permettre de recueillir les informations nécessaires à la prise de décision marketing, en ayant ces informations à disposition au bon endroit et au bon moment.
+ 
+ Il regroupe donc des données à la fois internes et externes à l’entreprise.
+ 
+     Les informations internes seront par exemple les données de ventes par produits, les données clients, les données relatives aux coûts, les données provenant de l’activité des commerciaux, ou même les données de votre site internet.
+ 
+     Les informations externes, quant à elles, seront les études de marché, les panels, les données de veille sur le marché et de vos concurrents.
+
+logiciel CRM (Customer Relationship Management)
+Le logiciel CRM (ou Customer Relationship Management) va gérer tout ce qui est informations client et communication sortante comme les emails, les appels, les SMS, en intégrant également tout ce qui est effort commercial.
+
+DMP Data Management Platform
+Une DMP est une plateforme de gestion de données qui a pour but de stocker, trier et analyser les données clients. Jusqu’ici rien de nouveau par rapport au CRM. En revanche, le plus de la DMP est d’intégrer des types de données différentes, par exemple les données de navigation sur votre site Web et de les agréger à vos données de ventes sous un identifiant unique.
+

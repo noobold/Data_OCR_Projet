@@ -1,0 +1,288 @@
+-- Question 1 compter le nombre d'appartement vendu dans le fichier (fichier du semestre 1)
+
+SELECT COUNT(TypeDeLocal ) AS NombreAppartement 
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK  
+WHERE TypeDeLocal = 'Appartement' AND NatureMutation = 'vente' AND YEAR (DateMutation) =2020 AND MONTH(DateMutation) IN (1,2,3,4,5,6);
+
+
+-- Question 2 Proportion des ventes d'appartements par le nombre de pieces
+
+SELECT NombrePiecesPrincipales,
+       ROUND( count(*) * 100.0/sum(count(*)) over (),2) as ProportionVente
+FROM LaPlaceImmoV2.Contrat
+	JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK  
+WHERE TypeDeLocal ='Appartement' AND NatureMutation = 'vente'
+GROUP BY  NombrePiecesPrincipales ;
+
+-- Question 3 Liste des 10 departements ou le prix du metre carré est le plus elevé
+
+	-- test colonne departement
+SELECT FLOOR(CodePostal/1000) as Departement,CodePostal -- divise par 1000 pour avoir que les millier (code departement) et floor tronque les virgules 
+FROM LaPlaceImmoV2.SituationGeographique;
+
+	-- test double jointure
+SELECT *
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK  
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK;
+
+	-- reponse
+
+SELECT FLOOR(CodePostal/1000) AS Departement,ROUND(AVG(ValeurFonciere/SurfaceReelleBati),2) as PrixMetreCarree
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK  
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+GROUP BY Departement
+ORDER BY PrixMetreCarree DESC
+LIMIT 10; 
+	
+-- Question 4 Prix Moyen du metre carré d.'une maison en IDF
+
+SELECT ROUND(AVG(ValeurFonciere/SurfaceReelleBati),2) as PrixMetreCarreeEnIDF
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK  
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE TypeDeLocal = 'Maison' AND
+		(
+		FLOOR(CodePostal/1000) IN (75,77,78,91,92,93,94,95)
+		
+		); 
+
+-- Question 5 Liste des 10 appartements les plus cher avec le département et le nombre de metre carré
+
+SELECT FLOOR(CodePostal/1000) as Departement, ValeurFonciere,SurfaceCarrezLot1
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK  
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE TypeDeLocal = 'Appartement'
+ORDER BY ValeurFonciere DESC
+LIMIT 10;
+
+SELECT *
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK  
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE IDProprieteDuBienPK = 27406 ;
+
+SELECT *
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK  
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE IDProprieteDuBienPK = 27001;
+
+-- Question 6 Taux d'évolution du nombre de ventes entre le premier et le second trimestre 2020
+
+-- Selection premier trimestre
+SELECT COUNT(DateMutation) as trimestre1
+FROM LaPlaceImmoV2.Contrat
+WHERE MONTH(DateMutation) = 01
+	OR MONTH(DateMutation) = 02
+	OR MONTH(DateMutation) = 03
+;
+
+
+-- selection deuxieme trimestre
+
+SELECT COUNT(DateMutation) as trimestre2
+FROM LaPlaceImmoV2.Contrat
+WHERE MONTH(DateMutation) = 04
+	OR MONTH(DateMutation) = 05
+	OR MONTH(DateMutation) = 06
+;
+
+-- reponse (taux d'evolution :((Va-Vd)/Vd)*100)
+SELECT ROUND(((Trimestre2-Trimestre1)/Trimestre1)*100,2) as TauxDEvolutionTrimestre1_2
+FROM (
+	SELECT COUNT(DateMutation) AS  Trimestre1
+		FROM LaPlaceImmoV2.Contrat
+		WHERE MONTH(DateMutation) = 01
+			OR MONTH(DateMutation) = 02
+			OR MONTH(DateMutation) = 03
+	)AS  Trimestre1 ,
+	(
+	SELECT COUNT(DateMutation) AS  Trimestre2
+		FROM LaPlaceImmoV2.Contrat
+		WHERE MONTH(DateMutation) = 04
+			OR MONTH(DateMutation) = 05
+			OR MONTH(DateMutation) = 06
+	)AS  Trimestre2;	
+
+-- Question 7 Liste des communes ou le nombre de ventes a augmenté d'au moins 20% entre le premier et second trimestre 2020
+
+-- vente par commune trimestre 1 (table temporaire)
+DROP TABLE IF EXISTS T1;
+CREATE TEMPORARY TABLE T1
+	SELECT COUNT(DateMutation) as VenteTrimestre1,Commune AS CommuneTri1
+	FROM LaPlaceImmoV2.Contrat
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+	WHERE MONTH(DateMutation) = 01
+		OR MONTH(DateMutation) = 02
+		OR MONTH(DateMutation) = 03
+	GROUP BY Commune;
+
+-- vente par commune trimestre 2 (table temporaire)
+DROP TABLE IF EXISTS T2;
+CREATE TEMPORARY TABLE T2
+SELECT COUNT(DateMutation) AS VenteTrimestre2,Commune AS CommuneTri2
+FROM LaPlaceImmoV2.Contrat
+JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE MONTH(DateMutation) = 04
+	OR MONTH(DateMutation) = 05
+	OR MONTH(DateMutation) = 06
+GROUP BY Commune ;
+
+-- reponse
+SELECT CommuneTri1 AS ListeCommuneVenteSup20EntreTri1_2
+FROM T1,T2
+WHERE CommuneTri1=CommuneTri2 AND ((((VenteTrimestre2-VenteTrimestre1)/VenteTrimestre1)*100) >20);
+
+
+-- Question 8 Differences en pourcentage du prix au metre carré entre un appartement de 2 pieces et un 3 pieces
+
+-- selection des apparts de 2 pieces
+
+SELECT ROUND(AVG(ValeurFonciere/SurfaceReelleBati),2) AS PrixMetreCarree2Pieces
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK
+WHERE TypeDeLocal = 'Appartement' AND NombrePiecesPrincipales = 2;
+
+-- selection des apparts de 3 pieces
+
+SELECT ROUND(AVG(ValeurFonciere/SurfaceReelleBati),2) AS PrixMetreCarree3Pieces
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK
+WHERE TypeDeLocal = 'Appartement' AND NombrePiecesPrincipales = 3;
+
+-- reponse
+
+SELECT ROUND((PrixMetreCarree2Pieces/PrixMetreCarree3Pieces-1)*100,2) AS DifferenceAppart2Pieces3Pieces
+FROM (SELECT AVG(ValeurFonciere/SurfaceReelleBati) AS PrixMetreCarree2Pieces
+		FROM LaPlaceImmoV2.Contrat 
+			JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK
+		WHERE TypeDeLocal = 'Appartement' AND NombrePiecesPrincipales = 2
+		) AS Prix2Pieces ,
+	(SELECT AVG(ValeurFonciere/SurfaceReelleBati) AS PrixMetreCarree3Pieces
+		FROM LaPlaceImmoV2.Contrat 
+			JOIN LaPlaceImmoV2.ProprieteDuBien ON Contrat.IDProprieteDuBienFK  = ProprieteDuBien.IDProprieteDuBienPK
+		WHERE TypeDeLocal = 'Appartement' AND NombrePiecesPrincipales = 3
+		) AS Prix3Pieces
+;
+
+-- Question 9 les moyennes de valeurs fonciere pour le top 3 des commmunes pour les departement 6 13 33 59 69
+
+-- Table pour le departememt 6
+SELECT AVG(ValeurFonciere) AS MoyenneValeurFonciere,Commune,FLOOR(CodePostal/1000) as Departement
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE FLOOR(CodePostal/1000) =6
+GROUP BY Commune
+ORDER BY MoyenneValeurFonciere DESC
+LIMIT 3
+
+
+-- reponse
+	-- creation tables temporaires 
+DROP TABLE IF EXISTS D6;
+CREATE TEMPORARY TABLE D6
+SELECT AVG(ValeurFonciere) AS MoyenneValeurFonciere,Commune,FLOOR(CodePostal/1000) as Departement
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE FLOOR(CodePostal/1000) = 6
+GROUP BY Commune
+ORDER BY MoyenneValeurFonciere DESC
+LIMIT 3;
+
+DROP TABLE IF EXISTS D13;
+CREATE TEMPORARY TABLE D13
+SELECT AVG(ValeurFonciere) AS MoyenneValeurFonciere,Commune,FLOOR(CodePostal/1000) as Departement
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE FLOOR(CodePostal/1000) =13
+GROUP BY Commune
+ORDER BY MoyenneValeurFonciere DESC
+LIMIT 3;
+
+DROP TABLE IF EXISTS D33;
+CREATE TEMPORARY TABLE D33
+SELECT AVG(ValeurFonciere) AS MoyenneValeurFonciere,Commune,FLOOR(CodePostal/1000) as Departement
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE FLOOR(CodePostal/1000) =13
+GROUP BY Commune
+ORDER BY MoyenneValeurFonciere DESC
+LIMIT 3;
+
+DROP TABLE IF EXISTS D59;
+CREATE TEMPORARY TABLE D59
+SELECT AVG(ValeurFonciere) AS MoyenneValeurFonciere,Commune,FLOOR(CodePostal/1000) as Departement
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE FLOOR(CodePostal/1000) =59
+GROUP BY Commune
+ORDER BY MoyenneValeurFonciere DESC
+LIMIT 3;
+
+DROP TABLE IF EXISTS D69;
+CREATE TEMPORARY TABLE D69
+SELECT AVG(ValeurFonciere) AS MoyenneValeurFonciere,Commune,FLOOR(CodePostal/1000) as Departement
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE FLOOR(CodePostal/1000) =69
+GROUP BY Commune
+ORDER BY MoyenneValeurFonciere DESC
+LIMIT 3;
+
+	-- union des tables pour affichage final
+
+SELECT * FROM D6
+UNION
+SELECT * FROM  D13
+UNION
+SELECT * FROM D33
+UNION
+SELECT * FROM D59
+UNION
+SELECT * FROM D69 
+;
+
+-- reponse fenetré
+
+-- table moyenne + commune + departement
+SELECT AVG(ValeurFonciere) AS MoyenneValeurFonciere,
+Commune,
+FLOOR(CodePostal/1000) as Departement
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE FLOOR(CodePostal/1000) IN(6,13,33,59,69)
+GROUP BY Commune
+ORDER BY departement,MoyenneValeurFonciere DESC
+;
+
+-- table avec Rang mais sans limitation de taille
+SELECT AVG(ValeurFonciere) AS MoyenneValeurFonciere,
+Commune,
+FLOOR(CodePostal/1000) as Departement,
+RANK() OVER(PARTITION BY Departement ORDER BY MoyenneValeurFonciere DESC)AS ID
+FROM LaPlaceImmoV2.Contrat 
+	JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+WHERE FLOOR(CodePostal/1000) IN(6,13,33,59,69)
+GROUP BY Commune
+ORDER BY departement,MoyenneValeurFonciere DESC
+
+;
+-- reponse
+SELECT *
+FROM (SELECT AVG(ValeurFonciere) AS MoyenneValeurFonciere,
+		Commune,
+		FLOOR(CodePostal/1000) as Departement,
+		RANK() OVER(PARTITION BY Departement ORDER BY MoyenneValeurFonciere DESC)AS ID
+		FROM LaPlaceImmoV2.Contrat 
+			JOIN LaPlaceImmoV2.SituationGeographique ON Contrat.IDSituationGeographiqueFK = SituationGeographique.IDSituationGeographiquePK
+		WHERE FLOOR(CodePostal/1000) IN(6,13,33,59,69)
+		GROUP BY Commune
+		ORDER BY departement,MoyenneValeurFonciere DESC)AS fenetre
+WHERE ID IN (1,2,3)
+;
+
+

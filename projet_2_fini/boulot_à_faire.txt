@@ -1,0 +1,14 @@
+
+
+livrable:
+
+    Le rapport sur les clients affiliés en fichier Excel ou Google Sheets, rempli avec les informations attendues par votre collègue.
+    Le mail que vous avez envoyé à Cécile pour prévenir de l’anomalie et l’expliquer.
+    Vos slides utilisées pour la présentation au format PDF (avec les 5 graphiques choisis).
+
+presentation: doit inclure:
+    rapport mensuel ventes chiffres d'affaires, prix des produit, ..... voir mail de frédéric
+
+Pour mardi 04/04:
+    presentation livrable projet 2 avec titre nom des echelles sur le livrable.
+    

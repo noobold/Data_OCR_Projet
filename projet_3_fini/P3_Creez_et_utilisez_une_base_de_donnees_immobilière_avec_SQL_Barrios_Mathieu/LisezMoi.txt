@@ -1,0 +1,15 @@
+Logiciel utilisé:
+
+fichier de type excel pour le dicotionnaire de donnée fait avec LibreOffice
+
+https://fr.libreoffice.org/download/telecharger-libreoffice/
+
+fichier UML fait avec umbrello
+
+https://umbrello.kde.org/
+
+Importation et traitement des données fait avec une base de donnée MariaDB et l'editeur de BDD DBeaver.
+
+https://mariadb.org/
+
+https://dbeaver.io/
