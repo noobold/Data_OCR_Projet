@@ -1,0 +1,30 @@
+3 fichiers:
+
+    1 fichier d'une ERP
+        contient:
+            ref produit
+            prix de vente
+            etat de stock
+            
+    1 fichier vente web
+        contient:
+            nom produit
+            description
+            nombre de vente
+            ....
+            
+    1 fichier liaison table ERP web
+        contient:
+            lien reference produit vers base de donnée en ligne (SKU)
+            
+        Mauvais nom de colonne id_web correspond au SKU des produit dans la boutique
+
+Mission:
+
+1 rapprocher les 2 rapports (faire un lien ou un join/merge entre les 2 tables) avec l'aide du fichier excel de liaison
+
+2 chiffre d'affaire par produit + total du chiffre d'affaire réalisé en ligne
+
+3 erreur de saisie dans le prix de certain produit???
+     recherche de valeur aberante et les lister + analyse graphique
+

@@ -1,0 +1,17 @@
+OpenClassRoom DataV2 projet 5
+
+Notebook fait sur Linux Manjaro rolling release
+
+jupyter notebook spec:
+python 3.10
+pandas en version 1.4.2
+matplotlib en version 3.5.2
+seaborn en version 0.11.2
+
+Les Notebooks servent à analyser les données pour le projet 5 de OpenClassRoom
+
+Notebooks:
+
+1 analyse_preparatoire.ipynb : regroupe les diverses analyses des fichiers de base 
+2 Barrios_Mathieu_1_notebookjupiter_062022.ipynb : effectue le nettoyage des fichiers et prépare une base de données pour les analyses.
+3 analyse.ipynb: fait les analyses à partir des données du notebook 2 
