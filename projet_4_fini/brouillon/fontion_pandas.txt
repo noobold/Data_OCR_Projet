@@ -1,0 +1,9 @@
+Fonction pandas non utilisé:
+
+creating dataframe : en fait on les crée direct à partir de fichier
+
+la section Reshaping Data
+
+la section plotting 
+
+la section windows

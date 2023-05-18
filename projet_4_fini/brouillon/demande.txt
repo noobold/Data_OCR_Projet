@@ -1,0 +1,60 @@
+Demande de Marc
+
+    la proportion de personnes en état de sous-nutrition ;
+		Fichier source necessaire:
+		type de graphe:
+		
+		
+    le nombre théorique de personnes qui pourraient être nourries. Tu devrais pouvoir calculer ça à partir de la disponibilité alimentaire mondiale ;
+		Fichier source necessaire:
+		type de graphe:
+		
+		
+    idem pour la disponibilité alimentaire des produits végétaux ;
+		Fichier source necessaire:
+		type de graphe:
+		
+		
+    l’utilisation de la disponibilité intérieure, en particulier la part qui est attribuée à l’alimentation animale, celle qui est perdue et celle qui est concrètement utilisée pour l'alimentation humaine.
+	Je crois que Julien avait trouvé un moyen de facilement calculer ces proportions. (voir lexique.odt)
+		Fichier source necessaire:
+		type de graphe:
+		
+		
+
+Demande de Mélanie :
+
+	Je souhaiterais avoir une étude un peu plus fine pour chacun des pays.
+		Fichier source necessaire:
+		type de graphe:
+		
+	j’aimerais que tu puisses nous donner les pays pour lesquels la proportion de personnes sous-alimentées est la plus forte en 2017,
+		Fichier source necessaire:
+		type de graphe:
+		
+	ceux qui ont le plus bénéficié d’aide depuis 2013,
+		Fichier source necessaire:
+		type de graphe:
+		
+	ceux ayant le plus/le moins de disponibilité/habitant,
+		Fichier source necessaire:
+		type de graphe:
+		
+	etc., et toutes les infos que tu trouverais utiles pour mettre en relief les pays qui semblent être le plus en difficulté, au niveau alimentaire.
+		Fichier source necessaire:
+		type de graphe:
+		
+		
+		
+		
+Commentaire sur fichier:
+fichier dispo alimentaire:
+qté disponible = production + importation+ variation de stock
+qté consommé= Aliment pour animaux + Autres utilisation + exportation + nourriture +Perte + semence + traitement
+		
+		
+		
+Fonction à voir en python:
+
+Fonction qui prends direct les CVS en python Pandas. Lien Python facile avec pandas OK
+Fonction qui me fait un panel de graphes avec les données pour exploration Cours initier au blibliotheque de base de donnée

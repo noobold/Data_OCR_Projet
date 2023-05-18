@@ -1,0 +1,15 @@
+Openclassroom projet 4 
+
+OS: Manjaro Linux
+logiciel utilisée: Jupiter et Anaconda
+librairie utilisée Pandas MatplotLib et Seaborn
+
+repertoire:
+    Donnee: donnée de base du projet
+    Donnee_analyse :donnée qui sert pour le notebook Analyse
+    fonction: Fonction perso pour Nettoyage de donnée
+    
+Notebook présent:
+Barrios_Mathieu_1_notebook_052022.ipynb : livrable avec les liens vers les autres notebooks principalement il nettoie les données
+recherche_donnee_base.ipynb : notebook qui inspecte les donnée de base (avant nettoyage) crée les donnée pour le notebook Analyse
+Analyse.ipynb: notebook qui analyse les données et réponds au question posé par Marc et Mélanie
