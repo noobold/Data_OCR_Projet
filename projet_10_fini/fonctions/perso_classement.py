@@ -82,7 +82,7 @@ def rapport_confusion_model(model,data_test,target_test):
     #https://kobia.fr/classification-metrics-f1-score/
     #https://kobia.fr/classification-metrics-precision-recall/
 
-    print("rapport de classification totales")
+    print("rapport de classification jeu de test")
     predict_test_logreg = model.predict(data_test)
     print(classification_report(target_test,predict_test_logreg))
 
@@ -210,7 +210,7 @@ def kmeans_bool(data,colonne_cible):
     model_KMeans.fit(data_train)
     
     #analyse du modele
-    predict_test_KMeans = model_KMeans.predict(data.drop(colonne_cible,axis=1))
+    predict_test_KMeans = model_KMeans.predict(data_test)
     predict_test_KMeans = predict_test_KMeans.astype(bool)
 
     predict_test = model_KMeans.predict(data_test)
@@ -221,7 +221,7 @@ def kmeans_bool(data,colonne_cible):
 
     surapprentissage(target_test=target_test,target_train=target_train,predict_test=predict_test,predict_train=predict_train)
 
-    rapport_confusion(predict_test=predict_test_KMeans,target_test=data[colonne_cible])
+    rapport_confusion(predict_test=predict_test_KMeans,target_test=target_test)
     
     return model_KMeans
 
@@ -272,7 +272,7 @@ def KNNtest(data,colonne_cible,kmin=1,kmax=10):
 
     surapprentissage(target_test=target_test,target_train=target_train,predict_test=predict_test_KNN,predict_train=predict_train_KNN)   
     #affichage matrice de confusion
-    rapport_confusion(predict_test=predict_tot,target_test=data[colonne_cible])
+    rapport_confusion(predict_test=predict_test_KNN,target_test=target_test)
 
     return model_voisin
 
@@ -299,7 +299,7 @@ def regression_logistique(data,colonne_cible,max_iter=100):
 
     surapprentissage(target_test=target_test,target_train=target_train,predict_test=predict_test,predict_train=predict_train)   
 
-    rapport_confusion_model(model=model_reg_logis,data_test=data.drop([colonne_cible],axis=1),target_test=data[colonne_cible])
+    rapport_confusion_model(model=model_reg_logis,data_test = data_test,target_test=target_test)
 
     return model_reg_logis
 
@@ -327,6 +327,6 @@ def naive_bayes_gaussian(data,colonne_cible):
     
     surapprentissage(target_test=target_test,target_train=target_train,predict_test=predict_test,predict_train=predict_train)   
 
-    rapport_confusion_model(model=gnb,data_test=data.drop([colonne_cible],axis=1),target_test=data[colonne_cible])
+    rapport_confusion_model(model=gnb,data_test = data_test,target_test=target_test)
 
     return gnb
